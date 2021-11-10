@@ -738,28 +738,11 @@ def abrir_tela_listar_emprestimo():
             tela_listar_emprestimo.tableWidget.setItem(p,j,QtWidgets.QTableWidgetItem(str(dados_lidos[p][j])))
 
 
-
-
-    #for i in range(0, len(dados_lidos)):
-     #       for j in range(0, 6):
-       #         tela_listar_emprestimo.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
-
-    
-
-    
-    
-    
-    
-
    
-
-    
 
 def voltar_tela_listar_emprestimo():
     tela_listar_emprestimo.close()
     tela_emprestimo.show()
-
-
 
 
 
