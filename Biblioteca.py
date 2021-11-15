@@ -706,44 +706,141 @@ def voltar_tela_emprestimo():
     tela_emprestimo.close()
     sistema_geral.show()
 
-def abrir_tela_opc():
-    tela_emprestimo.close()
-    tela_opc.show()
-
-def voltar_tela_opc():
-    tela_opc.close()
-    tela_emprestimo.show()
-
 def abrir_tela_listar_emprestimo():
-    tela_opc.close()
+    tela_emprestimo.close()
     tela_listar_emprestimo.show()
     cursor = banco.cursor()
-    cursor.execute('SELECT cod_emprestimo, datetime_emprestimo, previ_entrega, ISBN, cod_funcionario, aluno_matricula FROM emprestimo;')
+    cursor.execute('SELECT * FROM emprestimo')
     dados_lidos=cursor.fetchall()
     
+
     tela_listar_emprestimo.tableWidget.setRowCount(len(dados_lidos))
-    
-    tela_listar_emprestimo.tableWidget.setColumnCount(6)
+    tela_listar_emprestimo.tableWidget.setColumnCount(7)
     tela_listar_emprestimo.tableWidget.setColumnWidth(0, 68)
     tela_listar_emprestimo.tableWidget.setColumnWidth(1, 210)
-    tela_listar_emprestimo.tableWidget.setColumnWidth(2, 150)
-    tela_listar_emprestimo.tableWidget.setColumnWidth(3, 270)
-    tela_listar_emprestimo.tableWidget.setColumnWidth(4, 250)
-    tela_listar_emprestimo.tableWidget.setColumnWidth(5, 140)
+    tela_listar_emprestimo.tableWidget.setColumnWidth(2, 210)
+    tela_listar_emprestimo.tableWidget.setColumnWidth(3, 145)
+    tela_listar_emprestimo.tableWidget.setColumnWidth(4, 180)
+    tela_listar_emprestimo.tableWidget.setColumnWidth(5, 150)
+    tela_listar_emprestimo.tableWidget.setColumnWidth(6, 70)
     tela_listar_emprestimo.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     tela_listar_emprestimo.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
-    for p in dados_lidos:
-        for j in range(0, 1):
-            tela_listar_emprestimo.tableWidget.setItem(p,j,QtWidgets.QTableWidgetItem(str(dados_lidos[p][j])))
-
-
-   
+    for i in range(0, len(dados_lidos)):
+            for j in range(0, 7):
+                tela_listar_emprestimo.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
 
 def voltar_tela_listar_emprestimo():
     tela_listar_emprestimo.close()
     tela_emprestimo.show()
 
+def abrir_opc_editar():
+    tela_emprestimo.close()
+    tela_opc_editar.show()
+
+def tela_opc_editar_voltar():
+    tela_opc_editar.close()
+    tela_emprestimo.show()
+
+def abrir_tela_editar_emprestimo():
+    tela_opc_editar.close()
+    tela_editar_emprestimo.show()
+
+def editar_emprestimo():
+    try:
+        cod=int(tela_editar_emprestimo.cod.text())
+        date_time=(tela_editar_emprestimo.datetime.text())
+        cursor = banco.cursor()
+        comando_SQL = "UPDATE emprestimo SET datetime_emprestimo = %s WHERE cod_emprestimo = %s"
+        dados = (date_time,cod)
+        cursor.execute(comando_SQL,dados)
+        banco.commit()
+        tela_editar_emprestimo.label_2.setText("Alteração realizada com sucesso")
+        tela_editar_emprestimo.cod.setText("")
+        tela_editar_emprestimo.datetime.setText("")
+        tela_editar_emprestimo.label_3.setText("")
+        tela_editar_emprestimo.label_7.setText("")
+    except ValueError:
+        tela_editar_emprestimo.label_3.setText("Código incorreto!")
+    except:
+        tela_editar_emprestimo.label_3.setText("")
+        tela_editar_emprestimo.label_7.setText("Formato incorreto, digite da seguinte forma Ex: 2021-10-01 13:00:55")
+
+def voltar_tela_editar_emprestimo():
+    tela_editar_emprestimo.close()
+    tela_emprestimo.show()
+    tela_editar_emprestimo.label_2.setText("")
+    tela_editar_emprestimo.cod.setText("")
+    tela_editar_emprestimo.datetime.setText("")
+    tela_editar_emprestimo.label_3.setText("")
+    tela_editar_emprestimo.label_7.setText("")
+
+def abrir_tela_editar_devolucao():
+    tela_opc_editar.close()
+    tela_editar_devolucao.show()
+
+def editar_devolucao():
+    try:
+        cod=int(tela_editar_devolucao.cod.text())
+        date_time=(tela_editar_devolucao.datetime.text())
+        cursor = banco.cursor()
+        comando_SQL = "UPDATE emprestimo SET datetime_devolucao = %s WHERE cod_emprestimo = %s"
+        dados = (date_time,cod)
+        cursor.execute(comando_SQL,dados)
+        banco.commit()
+        tela_editar_devolucao.label_2.setText("Alteração realizada com sucesso")
+        tela_editar_devolucao.cod.setText("")
+        tela_editar_devolucao.datetime.setText("")
+        tela_editar_devolucao.label_3.setText("")
+        tela_editar_devolucao.label_7.setText("")
+    except ValueError:
+        tela_editar_devolucao.label_3.setText("Código incorreto!")
+    except:
+        tela_editar_devolucao.label_3.setText("")
+        tela_editar_devolucao.label_7.setText("Formato incorreto, digite da seguinte forma Ex: 2021-10-01 13:00:55")
+
+def voltar_tela_editar_devolucao():
+    tela_editar_devolucao.close()
+    tela_emprestimo.show()
+    tela_editar_devolucao.label_2.setText("")
+    tela_editar_devolucao.cod.setText("")
+    tela_editar_devolucao.datetime.setText("")
+    tela_editar_devolucao.label_3.setText("")
+    tela_editar_devolucao.label_7.setText("")
+
+def abrir_tela_editar_previsao():
+    tela_opc_editar.close()
+    tela_editar_previsao.show()
+
+def editar_previsao():
+    try:
+        cod=int(tela_editar_previsao.cod.text())
+        data=(tela_editar_previsao.data.text())
+        cursor = banco.cursor()
+        comando_SQL = "UPDATE emprestimo SET previ_entrega = %s WHERE cod_emprestimo = %s"
+        dados = (data,cod)
+        cursor.execute(comando_SQL,dados)
+        banco.commit()
+        tela_editar_previsao.label_2.setText("Alteração realizada com sucesso")
+        tela_editar_previsao.cod.setText("")
+        tela_editar_previsao.data.setText("")
+        tela_editar_previsao.label_3.setText("")
+        tela_editar_previsao.label_7.setText("")
+    except ValueError:
+        tela_editar_previsao.label_3.setText("Código incorreto!")
+    except:
+        tela_editar_previsao.label_3.setText("")
+        tela_editar_previsao.label_7.setText("Formato incorreto, digite da seguinte forma Ex: 2021-10-01")
+
+
+def voltar_tela_editar_previsao():
+    tela_editar_previsao.close()
+    tela_emprestimo.show()
+    tela_editar_previsao.label_2.setText("")
+    tela_editar_previsao.cod.setText("")
+    tela_editar_previsao.data.setText("")
+    tela_editar_previsao.label_3.setText("")
+    tela_editar_previsao.label_7.setText("")
 
 
 
@@ -775,8 +872,11 @@ tela_cadastrar_funcionario=uic.loadUi("tela_cadastrar_funcionario.ui")
 tela_excluir_funcionario=uic.loadUi("tela_excluir_funcionario.ui")
 tela_pesquisar_funcionario=uic.loadUi("tela_pesquisar_funcionario.ui")
 tela_emprestimo=uic.loadUi("tela_emprestimo.ui")
-tela_opc=uic.loadUi("opc_listar.ui")
+tela_opc_editar=uic.loadUi("opc_editar.ui")
 tela_listar_emprestimo=uic.loadUi("tela_listar_emprestimo.ui")
+tela_editar_emprestimo=uic.loadUi("tela_editar_emprestimo.ui")
+tela_editar_devolucao=uic.loadUi("tela_editar_devolucao.ui")
+tela_editar_previsao=uic.loadUi("tela_editar_previsao.ui")
 
 
 #Execultando as funções de clicker
@@ -841,11 +941,19 @@ tela_pesquisar_funcionario.pushButton_7.clicked.connect(voltar_tela_pesquisar_fu
 tela_pesquisar_funcionario.pushButton_4.clicked.connect(pesquisar_funcionario)
 sistema_geral.pushButton_4.clicked.connect(abrir_tela_emprestimo)
 tela_emprestimo.pushButton_7.clicked.connect(voltar_tela_emprestimo)
-tela_emprestimo.pushButton_2.clicked.connect(abrir_tela_opc)
-tela_opc.pushButton.clicked.connect(voltar_tela_opc)
-tela_opc.pushButton_1.clicked.connect(abrir_tela_listar_emprestimo)
+tela_emprestimo.pushButton_2.clicked.connect(abrir_tela_listar_emprestimo)
 tela_listar_emprestimo.pushButton.clicked.connect(voltar_tela_listar_emprestimo)
-
+tela_emprestimo.pushButton_4.clicked.connect(abrir_opc_editar)
+tela_opc_editar.pushButton.clicked.connect(tela_opc_editar_voltar)
+tela_opc_editar.pushButton_1.clicked.connect(abrir_tela_editar_emprestimo)
+tela_editar_emprestimo.pushButton_7.clicked.connect(voltar_tela_editar_emprestimo)
+tela_editar_emprestimo.pushButton.clicked.connect(editar_emprestimo)
+tela_opc_editar.pushButton_2.clicked.connect(abrir_tela_editar_devolucao)
+tela_editar_devolucao.pushButton_7.clicked.connect(voltar_tela_editar_devolucao)
+tela_editar_devolucao.pushButton.clicked.connect(editar_devolucao)
+tela_opc_editar.pushButton_3.clicked.connect(abrir_tela_editar_previsao)
+tela_editar_previsao.pushButton_7.clicked.connect(voltar_tela_editar_previsao)
+tela_editar_previsao.pushButton.clicked.connect(editar_previsao)
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -871,10 +979,12 @@ tela_cadastrar_funcionario.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_excluir_funcionario.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_pesquisar_funcionario.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
-tela_opc.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_listar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_opc_editar.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_editar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_editar_devolucao.setWindowIcon(QtGui.QIcon('icone.png'))
 
 #Start
-
 login_entrar.show()
 app.exec()
 

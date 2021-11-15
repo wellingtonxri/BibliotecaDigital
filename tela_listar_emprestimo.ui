@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>708</height>
+    <width>1035</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,6 +75,17 @@
     </column>
     <column>
      <property name="text">
+      <string>Data de devolução</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
       <string>Previsão de entrega</string>
      </property>
      <property name="font">
@@ -121,7 +132,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>880</x>
       <y>520</y>
       <width>111</width>
       <height>61</height>
@@ -155,7 +166,7 @@ border-color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>1035</width>
      <height>26</height>
     </rect>
    </property>
