@@ -632,6 +632,7 @@ def voltar_tela_excluir_funcionario():
     tela_excluir_funcionario.label_10.setText("")
     tela_excluir_funcionario.label_10.setText("")
     tela_excluir_funcionario.cod.setText("")
+    tela_excluir_funcionario.label_12.setText("")
     tela_excluir_funcionario.close()
     tela_funcionarios.show()
 
@@ -658,6 +659,23 @@ def tela_excluir_funcionario_pesq():
         tela_excluir_funcionario.label_10.setText("Insira apenas números inteiros")
     except:
         print("Pane geral")
+
+def excluir_funcionario():
+    try:
+        tela_excluir_funcionario.label_12.setText("")
+        cod=int(tela_excluir_funcionario.cod.text())
+        cursor = banco.cursor()
+        cursor.execute("DELETE FROM funcionario WHERE cod_funcionario = {}".format(cod))
+        banco.commit()
+        tela_excluir_funcionario.label_12.setText("Funcionario excluido com sucesso")
+        tela_excluir_funcionario.nome.setText("")
+        tela_excluir_funcionario.turno.setText("")
+        tela_excluir_funcionario.cod.setText("")
+    except ValueError:
+        tela_excluir_funcionario.label_11.setText("Insira apenas números inteiros")
+    except:
+        print("bug")
+
 
 def abrir_tela_pesquisar_funcionario():
     tela_funcionarios.close()
@@ -832,7 +850,6 @@ def editar_previsao():
         tela_editar_previsao.label_3.setText("")
         tela_editar_previsao.label_7.setText("Formato incorreto, digite da seguinte forma Ex: 2021-10-01")
 
-
 def voltar_tela_editar_previsao():
     tela_editar_previsao.close()
     tela_emprestimo.show()
@@ -841,6 +858,70 @@ def voltar_tela_editar_previsao():
     tela_editar_previsao.data.setText("")
     tela_editar_previsao.label_3.setText("")
     tela_editar_previsao.label_7.setText("")
+
+def abrir_tela_excluir_emprestimo():
+    tela_emprestimo.close()
+    tela_excluir_emprestimo.show()
+
+def excluir_emprestimo_pesq():
+    try:
+        achei = 0
+        tela_excluir_emprestimo.label_10.setText("")
+        tela_excluir_emprestimo.label_12.setText("")
+        cursor = banco.cursor()
+        cursor.execute("select * from emprestimo")
+        cod=int(tela_excluir_emprestimo.cod.text())
+        valores_lidos = cursor.fetchall()
+        for i in valores_lidos:
+            if i[0] == cod:
+                x = i[1]
+                y = ''
+                a = y + str(x)
+                tela_excluir_emprestimo.ISBN.setText(i[4])
+                tela_excluir_emprestimo.date.setText(a)
+                achei = 1
+        if achei == 0:
+            tela_excluir_emprestimo.label_10.setText("Cóodigo não encontrado")
+            tela_excluir_emprestimo.ISBN.setText("")
+            tela_excluir_emprestimo.date.setText("")
+            banco.commit()
+    except ValueError:
+        tela_excluir_emprestimo.label_11.setText("Insira apenas números inteiros")
+    except:
+        print("Pane geral aff")
+        tela_excluir_emprestimo.label_11.setText("")
+        tela_excluir_emprestimo.label_10.setText("")
+        tela_excluir_emprestimo.ISBN.setText("")
+        tela_excluir_emprestimo.date.setText("")
+        tela_excluir_emprestimo.cod.setText("")
+
+def voltar_tela_excluir_emprestimo():
+    tela_excluir_emprestimo.close()
+    tela_emprestimo.show()
+    tela_excluir_emprestimo.label_12.setText("")
+    tela_excluir_emprestimo.label_11.setText("")
+    tela_excluir_emprestimo.label_10.setText("")
+    tela_excluir_emprestimo.ISBN.setText("")
+    tela_excluir_emprestimo.date.setText("")
+    tela_excluir_emprestimo.cod.setText("")
+
+def excluir_emprestimo():
+    try:
+        tela_excluir_emprestimo.label_12.setText("")
+        cod=int(tela_excluir_emprestimo.cod.text())
+        cursor = banco.cursor()
+        cursor.execute("DELETE FROM emprestimo WHERE cod_emprestimo = {}".format(cod))
+        banco.commit()
+        tela_excluir_emprestimo.label_12.setText("Emprestimo excluido com sucesso")
+        tela_excluir_emprestimo.ISBN.setText("")
+        tela_excluir_emprestimo.date.setText("")
+        tela_excluir_emprestimo.cod.setText("")
+
+    except ValueError:
+        tela_excluir_emprestimo.label_11.setText("Insira apenas números inteiros")
+
+
+
 
 
 
@@ -877,7 +958,7 @@ tela_listar_emprestimo=uic.loadUi("tela_listar_emprestimo.ui")
 tela_editar_emprestimo=uic.loadUi("tela_editar_emprestimo.ui")
 tela_editar_devolucao=uic.loadUi("tela_editar_devolucao.ui")
 tela_editar_previsao=uic.loadUi("tela_editar_previsao.ui")
-
+tela_excluir_emprestimo=uic.loadUi("tela_excluir_emprestimo.ui")
 
 #Execultando as funções de clicker
 adm_cadastro.pushButton_7.clicked.connect(voltar_adm_cadastro)
@@ -936,6 +1017,7 @@ tela_cadastrar_funcionario.pushButton.clicked.connect(cadastrar_funcionario)
 tela_funcionarios.pushButton_6.clicked.connect(abrir_tela_excluir_funcionario)
 tela_excluir_funcionario.pushButton_3.clicked.connect(voltar_tela_excluir_funcionario)
 tela_excluir_funcionario.pushButton_4.clicked.connect(tela_excluir_funcionario_pesq)
+tela_excluir_funcionario.pushButton_2.clicked.connect(excluir_funcionario)
 tela_funcionarios.pushButton_5.clicked.connect(abrir_tela_pesquisar_funcionario)
 tela_pesquisar_funcionario.pushButton_7.clicked.connect(voltar_tela_pesquisar_funcionario)
 tela_pesquisar_funcionario.pushButton_4.clicked.connect(pesquisar_funcionario)
@@ -954,6 +1036,10 @@ tela_editar_devolucao.pushButton.clicked.connect(editar_devolucao)
 tela_opc_editar.pushButton_3.clicked.connect(abrir_tela_editar_previsao)
 tela_editar_previsao.pushButton_7.clicked.connect(voltar_tela_editar_previsao)
 tela_editar_previsao.pushButton.clicked.connect(editar_previsao)
+tela_emprestimo.pushButton_6.clicked.connect(abrir_tela_excluir_emprestimo)
+tela_excluir_emprestimo.pushButton_3.clicked.connect(voltar_tela_excluir_emprestimo)
+tela_excluir_emprestimo.pushButton_4.clicked.connect(excluir_emprestimo_pesq)
+tela_excluir_emprestimo.pushButton_2.clicked.connect(excluir_emprestimo)
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -983,6 +1069,8 @@ tela_listar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_opc_editar.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_devolucao.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_editar_previsao.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_excluir_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 
 #Start
 login_entrar.show()
