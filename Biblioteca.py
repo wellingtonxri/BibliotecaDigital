@@ -978,9 +978,49 @@ def voltar_tela_pesquisar_emprestimo():
     tela_pesquisar_emprestimo.cod_mat.setText("")
     tela_pesquisar_emprestimo.cod.setText("")
 
+def abrir_tela_cadastrar_emprestimo():
+    tela_emprestimo.close()
+    tela_cadastrar_emprestimo.show()
 
+def cadastrar_emprestimo():
+    try:
+        emprestimo=tela_cadastrar_emprestimo.emprestimo.text()
+        devolucao=tela_cadastrar_emprestimo.devolucao.text()
+        prev=tela_cadastrar_emprestimo.prev.text()
+        isbn=tela_cadastrar_emprestimo.ISBN.text()
+        cod_fun=int(tela_cadastrar_emprestimo.cod_fun.text())
+        mat=int(tela_cadastrar_emprestimo.mat.text())
+        cursor = banco.cursor()
+        comando_SQL = "INSERT INTO emprestimo (datetime_emprestimo, datetime_devolucao, previ_entrega, ISBN, cod_funcionario, aluno_matricula) VALUES (%s,%s,%s,%s,%s,%s)"
+        dados = (emprestimo,devolucao,prev,isbn,cod_fun,mat)
+        cursor.execute(comando_SQL,dados)
+        banco.commit()
+        tela_cadastrar_emprestimo.emprestimo.setText("")
+        tela_cadastrar_emprestimo.devolucao.setText("")
+        tela_cadastrar_emprestimo.prev.setText("")
+        tela_cadastrar_emprestimo.ISBN.setText("")
+        tela_cadastrar_emprestimo.cod_fun.setText("")
+        tela_cadastrar_emprestimo.mat.setText("")
+        tela_cadastrar_emprestimo.label_3.setText("Empréstimo cadastrado com sucesso!")
 
+    except ValueError:
+        tela_cadastrar_emprestimo.label_4.setText("Insira apenas números inteiros!")
+        tela_cadastrar_emprestimo.label_9.setText("Insira apenas números inteiros!")
+    except:
+        tela_erro.show()
 
+def fechar_tela_erro():
+    tela_erro.close()
+
+def voltar_tela_cadastrar_emprestimo():
+    tela_cadastrar_emprestimo.close()
+    tela_emprestimo.show()
+    tela_cadastrar_emprestimo.emprestimo.setText("")
+    tela_cadastrar_emprestimo.devolucao.setText("")
+    tela_cadastrar_emprestimo.prev.setText("")
+    tela_cadastrar_emprestimo.ISBN.setText("")
+    tela_cadastrar_emprestimo.cod_fun.setText("")
+    tela_cadastrar_emprestimo.mat.setText("")
 
 app=QtWidgets.QApplication([])
 
@@ -1015,6 +1055,8 @@ tela_editar_devolucao=uic.loadUi("tela_editar_devolucao.ui")
 tela_editar_previsao=uic.loadUi("tela_editar_previsao.ui")
 tela_excluir_emprestimo=uic.loadUi("tela_excluir_emprestimo.ui")
 tela_pesquisar_emprestimo=uic.loadUi("tela_pesquisar_emprestimo.ui")
+tela_cadastrar_emprestimo=uic.loadUi("tela_cadastrar_emprestimo.ui")
+tela_erro=uic.loadUi("tela_erro.ui")
 
 #Execultando as funções de clicker
 adm_cadastro.pushButton_7.clicked.connect(voltar_adm_cadastro)
@@ -1099,6 +1141,10 @@ tela_excluir_emprestimo.pushButton_2.clicked.connect(excluir_emprestimo)
 tela_emprestimo.pushButton_5.clicked.connect(abrir_tela_pesquisar_emprestimo)
 tela_pesquisar_emprestimo.pushButton_7.clicked.connect(voltar_tela_pesquisar_emprestimo)
 tela_pesquisar_emprestimo.pushButton_4.clicked.connect(pesquisar_emprestimo)
+tela_emprestimo.pushButton_3.clicked.connect(abrir_tela_cadastrar_emprestimo)
+tela_cadastrar_emprestimo.pushButton_2.clicked.connect(voltar_tela_cadastrar_emprestimo)
+tela_cadastrar_emprestimo.pushButton.clicked.connect(cadastrar_emprestimo)
+tela_erro.pushButton.clicked.connect(fechar_tela_erro)
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -1131,6 +1177,7 @@ tela_editar_devolucao.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_previsao.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_excluir_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_pesquisar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_erro.setWindowIcon(QtGui.QIcon('erro.png'))
 
 #Start
 login_entrar.show()
