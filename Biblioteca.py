@@ -676,7 +676,6 @@ def excluir_funcionario():
     except:
         print("bug")
 
-
 def abrir_tela_pesquisar_funcionario():
     tela_funcionarios.close()
     tela_pesquisar_funcionario.show()
@@ -920,8 +919,64 @@ def excluir_emprestimo():
     except ValueError:
         tela_excluir_emprestimo.label_11.setText("Insira apenas números inteiros")
 
+def abrir_tela_pesquisar_emprestimo():
+    tela_emprestimo.close()
+    tela_pesquisar_emprestimo.show()
 
+def pesquisar_emprestimo():
+    try:
+        achei = 0
+        cursor = banco.cursor()
+        cursor.execute("SELECT * FROM emprestimo")
+        cod=int(tela_pesquisar_emprestimo.cod.text())
+        valores_lidos = cursor.fetchall()
+        for i in valores_lidos:
+            if i[0] == cod:
+                d = i[1]
+                h = i[2]
+                f = i[3]
+                n = i[5]
+                m = i[6]
+                c = ""
+                da = c + str(d)
+                da2 = c + str(h)
+                prev = c + str(f)
+                codf = c + str(n)
+                mat = c + str(m)
+                tela_pesquisar_emprestimo.date_empre.setText(da)
+                tela_pesquisar_emprestimo.date_devo.setText(da2)
+                tela_pesquisar_emprestimo.previ.setText(prev)
+                tela_pesquisar_emprestimo.ISBN.setText(i[4])
+                tela_pesquisar_emprestimo.cod_fun.setText(codf)
+                tela_pesquisar_emprestimo.cod_mat.setText(mat)
+                tela_pesquisar_emprestimo.label_3.setText("")
+                achei = 1
+        if achei == 0:
+            tela_pesquisar_emprestimo.label_3.setText("Cóodigo não encontrado")
+            tela_pesquisar_emprestimo.date_empre.setText("")
+            tela_pesquisar_emprestimo.date_devo.setText("")
+            tela_pesquisar_emprestimo.previ.setText("")
+            tela_pesquisar_emprestimo.ISBN.setText("")
+            tela_pesquisar_emprestimo.cod_fun.setText("")
+            tela_pesquisar_emprestimo.cod_mat.setText("")
 
+    except ValueError:
+        tela_pesquisar_emprestimo.label_3.setText("Insira apenas números inteiros!")
+    except:
+        print("Pane")
+
+def voltar_tela_pesquisar_emprestimo():
+    tela_pesquisar_emprestimo.close()
+    tela_emprestimo.show()
+    tela_pesquisar_emprestimo.label_3.setText("")
+    tela_pesquisar_emprestimo.label_3.setText("")
+    tela_pesquisar_emprestimo.date_empre.setText("")
+    tela_pesquisar_emprestimo.date_devo.setText("")
+    tela_pesquisar_emprestimo.previ.setText("")
+    tela_pesquisar_emprestimo.ISBN.setText("")
+    tela_pesquisar_emprestimo.cod_fun.setText("")
+    tela_pesquisar_emprestimo.cod_mat.setText("")
+    tela_pesquisar_emprestimo.cod.setText("")
 
 
 
@@ -959,6 +1014,7 @@ tela_editar_emprestimo=uic.loadUi("tela_editar_emprestimo.ui")
 tela_editar_devolucao=uic.loadUi("tela_editar_devolucao.ui")
 tela_editar_previsao=uic.loadUi("tela_editar_previsao.ui")
 tela_excluir_emprestimo=uic.loadUi("tela_excluir_emprestimo.ui")
+tela_pesquisar_emprestimo=uic.loadUi("tela_pesquisar_emprestimo.ui")
 
 #Execultando as funções de clicker
 adm_cadastro.pushButton_7.clicked.connect(voltar_adm_cadastro)
@@ -1040,6 +1096,9 @@ tela_emprestimo.pushButton_6.clicked.connect(abrir_tela_excluir_emprestimo)
 tela_excluir_emprestimo.pushButton_3.clicked.connect(voltar_tela_excluir_emprestimo)
 tela_excluir_emprestimo.pushButton_4.clicked.connect(excluir_emprestimo_pesq)
 tela_excluir_emprestimo.pushButton_2.clicked.connect(excluir_emprestimo)
+tela_emprestimo.pushButton_5.clicked.connect(abrir_tela_pesquisar_emprestimo)
+tela_pesquisar_emprestimo.pushButton_7.clicked.connect(voltar_tela_pesquisar_emprestimo)
+tela_pesquisar_emprestimo.pushButton_4.clicked.connect(pesquisar_emprestimo)
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -1071,6 +1130,7 @@ tela_editar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_devolucao.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_previsao.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_excluir_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_pesquisar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 
 #Start
 login_entrar.show()
