@@ -74,9 +74,9 @@ border-color: black;</string>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>70</x>
       <y>180</y>
-      <width>221</width>
+      <width>231</width>
       <height>51</height>
      </rect>
     </property>
@@ -159,7 +159,7 @@ border-color: black;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>190</y>
+      <y>180</y>
       <width>51</width>
       <height>41</height>
      </rect>

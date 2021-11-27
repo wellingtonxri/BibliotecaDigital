@@ -1150,6 +1150,99 @@ def voltar_tela_excluir_login():
     tela_excluir_login.cod.setText("")
     tela_excluir_login.label_8.setText("")
 
+def abrir_tela_backup_emprestimo():
+    tela_administracao.close()
+    tela_backup_emprestimo.show()
+
+def voltar_tela_backup_emprestimo():
+    tela_backup_emprestimo.close()
+    tela_administracao.show()
+
+def abrir_tela_backup_emprestimo_excluido():
+    tela_backup_emprestimo.close()
+    tela_backup_emprestimo_excluido.show()
+    cursor = banco.cursor()
+    cursor.execute('SELECT * FROM bk_emprestimo_delete')
+    dados_lidos=cursor.fetchall()
+    
+
+    tela_backup_emprestimo_excluido.tableWidget.setRowCount(len(dados_lidos))
+    tela_backup_emprestimo_excluido.tableWidget.setColumnCount(7)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(0, 68)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(1, 210)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(2, 210)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(3, 185)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(4, 150)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(5, 70)
+    tela_backup_emprestimo_excluido.tableWidget.setColumnWidth(6, 145)
+    tela_backup_emprestimo_excluido.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    tela_backup_emprestimo_excluido.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+    for i in range(0, len(dados_lidos)):
+            for j in range(0, 7):
+                tela_backup_emprestimo_excluido.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+def voltar_tela_backup_emprestimo_excluido():
+    tela_backup_emprestimo_excluido.close()
+    tela_backup_emprestimo.show()
+
+def abrir_tela_backup_emprestimo_inserido():
+    tela_backup_emprestimo.close()
+    tela_backup_emprestimo_inserido.show()
+    cursor = banco.cursor()
+    cursor.execute('SELECT * FROM bk_emprestimo_insert')
+    dados_lidos=cursor.fetchall()
+    
+
+    tela_backup_emprestimo_inserido.tableWidget.setRowCount(len(dados_lidos))
+    tela_backup_emprestimo_inserido.tableWidget.setColumnCount(7)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(0, 68)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(1, 210)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(2, 210)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(3, 185)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(4, 150)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(5, 70)
+    tela_backup_emprestimo_inserido.tableWidget.setColumnWidth(6, 145)
+    tela_backup_emprestimo_inserido.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    tela_backup_emprestimo_inserido.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+    for i in range(0, len(dados_lidos)):
+            for j in range(0, 7):
+                tela_backup_emprestimo_inserido.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+    
+
+def voltar_tela_backup_emprestimo_inserido():
+    tela_backup_emprestimo_inserido.close()
+    tela_backup_emprestimo.show()
+
+def abrir_tela_backup_emprestimo_alterado():
+    tela_backup_emprestimo.close()
+    tela_backup_emprestimo_alterado.show()
+    cursor = banco.cursor()
+    cursor.execute('SELECT * FROM bk_emprestimo_update')
+    dados_lidos=cursor.fetchall()
+    
+
+    tela_backup_emprestimo_alterado.tableWidget.setRowCount(len(dados_lidos))
+    tela_backup_emprestimo_alterado.tableWidget.setColumnCount(7)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(0, 68)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(1, 210)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(2, 210)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(3, 185)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(4, 150)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(5, 70)
+    tela_backup_emprestimo_alterado.tableWidget.setColumnWidth(6, 145)
+    tela_backup_emprestimo_alterado.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    tela_backup_emprestimo_alterado.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+    for i in range(0, len(dados_lidos)):
+            for j in range(0, 7):
+                tela_backup_emprestimo_alterado.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+def voltar_tela_backup_emprestimo_alterado():
+    tela_backup_emprestimo_alterado.close()
+    tela_backup_emprestimo.show()
+
 
 app=QtWidgets.QApplication([])
 
@@ -1191,6 +1284,10 @@ tela_login=uic.loadUi("tela_login.ui")
 tela_listar_login=uic.loadUi("tela_listar_login.ui")
 tela_editar_login=uic.loadUi("tela_editar_login.ui")
 tela_excluir_login=uic.loadUi("tela_excluir_login.ui")
+tela_backup_emprestimo=uic.loadUi("tela_backup_emprestimo.ui")
+tela_backup_emprestimo_excluido=uic.loadUi("tela_backup_emprestimo_excluido.ui")
+tela_backup_emprestimo_inserido=uic.loadUi("tela_backup_emprestimo_inserido.ui")
+tela_backup_emprestimo_alterado=uic.loadUi("tela_backup_emprestimo_alterado.ui")
 
 #Execultando as funções de clicker
 adm_login.pushButton_7.clicked.connect(voltar_adm_cadastro)
@@ -1292,6 +1389,15 @@ tela_login.pushButton_2.clicked.connect(abrir_tela_excluir_login)
 tela_excluir_login.pushButton_3.clicked.connect(voltar_tela_excluir_login)
 tela_excluir_login.pushButton_2.clicked.connect(excluir_login_pesq)
 tela_excluir_login.pushButton.clicked.connect(excluir_login)
+tela_administracao.pushButton_3.clicked.connect(abrir_tela_backup_emprestimo)
+tela_backup_emprestimo.pushButton_7.clicked.connect(voltar_tela_backup_emprestimo)
+tela_backup_emprestimo.pushButton.clicked.connect(abrir_tela_backup_emprestimo_excluido)
+tela_backup_emprestimo_excluido.pushButton.clicked.connect(voltar_tela_backup_emprestimo_excluido)
+tela_backup_emprestimo.pushButton_3.clicked.connect(abrir_tela_backup_emprestimo_inserido)
+tela_backup_emprestimo_inserido.pushButton.clicked.connect(voltar_tela_backup_emprestimo_inserido)
+tela_backup_emprestimo.pushButton_2.clicked.connect(abrir_tela_backup_emprestimo_alterado)
+tela_backup_emprestimo_alterado.pushButton.clicked.connect(voltar_tela_backup_emprestimo_alterado)
+
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -1330,7 +1436,10 @@ tela_login.setWindowIcon(QtGui.QIcon('administracao.png'))
 tela_excluir_login.setWindowIcon(QtGui.QIcon('administracao.png'))
 tela_listar_login.setWindowIcon(QtGui.QIcon('administracao.png'))
 tela_editar_login.setWindowIcon(QtGui.QIcon('administracao.png'))
-
+tela_backup_emprestimo.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_backup_emprestimo_excluido.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_backup_emprestimo_inserido.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_backup_emprestimo_alterado.setWindowIcon(QtGui.QIcon('administracao.png'))
 
 #Start
 login_entrar.show()
