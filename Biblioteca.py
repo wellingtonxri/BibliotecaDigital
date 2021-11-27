@@ -19,9 +19,9 @@ def chama_sistema_geral():
             senha=login_entrar.lineEdit_2.setText("")
             sistema_geral.show()
             if hora >= '0600' and hora <='1259':
-                sistema_geral.label_11.setText('Bom dia'+bem+'!')
+                sistema_geral.label_11.setText('Bom dia ' +bem+'!')
             elif hora >= '1300' and hora <='1759':
-               sistema_geral.label_11.setText('Boa tarde'+bem+'!')
+               sistema_geral.label_11.setText('Boa tarde ' +bem+'!')
             elif hora >= '1800' and hora <='2359':
                 sistema_geral.label_11.setText('Boa noite '+bem+'!')
             else:
@@ -31,33 +31,33 @@ def chama_sistema_geral():
     except:
         login_entrar.label_2.setText("Usuário ou Senha inválidos!")
 
-def tela_adm_cadastro():
+def tela_adm_login():
     
     login_entrar.close()
-    adm_cadastro.show()
+    adm_login.show()
 
 def login_adm():
-    admlogin=adm_cadastro.adm.text()
-    admsenha=adm_cadastro.admsenha.text()
+    admlogin=adm_login.adm.text()
+    admsenha=adm_login.admsenha.text()
     cursor = banco.cursor()
     try:
         cursor.execute("SELECT senha FROM adm WHERE login = '{}'".format(admlogin))
         senha_db = cursor.fetchall()
         if admsenha == senha_db[0][0] :
-            abre_tela_cadastro()
-            adm_cadastro.erro.setText("")
-            adm_cadastro.adm.setText("")
-            adm_cadastro.admsenha.setText("")
+            abrir_tela_administracao()
+            adm_login.erro.setText("")
+            adm_login.adm.setText("")
+            adm_login.admsenha.setText("")
         else:
-            adm_cadastro.erro.setText("Usuário ou Senha inválidos!")
+            adm_login.erro.setText("Usuário ou Senha inválidos!")
     except:
-        adm_cadastro.erro.setText("Usuário ou Senha inválidos!")
+        adm_login.erro.setText("Usuário ou Senha inválidos!")
 
 def voltar_adm_cadastro():
-    adm_cadastro.adm.setText("")
-    adm_cadastro.admsenha.setText("")
-    adm_cadastro.erro.setText("")
-    adm_cadastro.close()
+    adm_login.adm.setText("")
+    adm_login.admsenha.setText("")
+    adm_login.erro.setText("")
+    adm_login.close()
     login_entrar.show()
 
 def sair_geral():
@@ -68,14 +68,22 @@ def logout():
     sistema_geral.close()
     login_entrar.show()
     
+def abrir_tela_administracao():
+    adm_login.close()
+    tela_administracao.show()
+
+def voltar_tela_administracao():
+    tela_administracao.close()
+    login_entrar.show()
+
 def abre_tela_cadastro():
-    adm_cadastro.close()
+    tela_login.close()
     tela_cadastro.show()
 
 def voltar_login_entrar():
     tela_cadastro.label_6.setText("")
     tela_cadastro.close()
-    login_entrar.show()
+    tela_login.show()
 
 def cadastrar():
     tela_cadastro.label_7.setText("")
@@ -880,7 +888,7 @@ def excluir_emprestimo_pesq():
                 tela_excluir_emprestimo.date.setText(a)
                 achei = 1
         if achei == 0:
-            tela_excluir_emprestimo.label_10.setText("Cóodigo não encontrado")
+            tela_excluir_emprestimo.label_10.setText("Código não encontrado")
             tela_excluir_emprestimo.ISBN.setText("")
             tela_excluir_emprestimo.date.setText("")
             banco.commit()
@@ -1022,6 +1030,127 @@ def voltar_tela_cadastrar_emprestimo():
     tela_cadastrar_emprestimo.cod_fun.setText("")
     tela_cadastrar_emprestimo.mat.setText("")
 
+def abrir_tela_login():
+    tela_administracao.close()
+    tela_login.show()
+
+def voltar_tela_login():
+    tela_login.close()
+    tela_administracao.show()
+
+def abrir_tela_listar_login():
+    tela_login.close()
+    tela_listar_login.show()
+    cursor = banco.cursor()
+    cursor.execute('SELECT * FROM cadastro')
+    dados_lidos=cursor.fetchall()
+
+    tela_listar_login.tableWidget.setRowCount(len(dados_lidos))
+    tela_listar_login.tableWidget.setColumnCount(4)
+    tela_listar_login.tableWidget.setColumnWidth(0, 55)
+    tela_listar_login.tableWidget.setColumnWidth(1, 300)
+    tela_listar_login.tableWidget.setColumnWidth(2, 155)
+    tela_listar_login.tableWidget.setColumnWidth(3, 150)
+    tela_listar_login.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    tela_listar_login.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+
+    for i in range(0, len(dados_lidos)):
+            for j in range(0, 4):
+                tela_listar_login.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
+
+def voltar_tela_listar_login():
+    tela_listar_login.close()
+    tela_login.show()
+
+def abrir_tela_editar_login():
+    tela_login.close()
+    tela_editar_login.show()
+
+def editar_login():
+    try:
+        cod=int(tela_editar_login.cod.text())
+        senha=tela_editar_login.senha.text()
+        n_senha=tela_editar_login.n_senha.text()
+        tela_editar_login.label_3.setText("")
+        if (senha == n_senha):
+            cursor = banco.cursor()
+            comando_SQL = "UPDATE cadastro SET senha = %s WHERE cod_cadastro = %s"
+            dados = (senha,cod)
+            cursor.execute(comando_SQL,dados)
+            banco.commit()
+            tela_editar_login.senha.setText("")
+            tela_editar_login.n_senha.setText("")
+            tela_editar_login.df.setText("")
+            tela_editar_login.cod.setText("")
+            tela_editar_login.label_2.setText("Senha alterada com sucesso")   
+        else:
+            tela_editar_login.df.setText("As senhas digitadas estão diferentes")
+
+    except ValueError:
+        tela_editar_login.label_3.setText("Código invalido, digite apenas números inteiros")
+              
+def voltar_tela_editar_login():
+    tela_editar_login.close()
+    tela_login.show()
+    tela_editar_login.senha.setText("")
+    tela_editar_login.n_senha.setText("")
+    tela_editar_login.df.setText("")
+    tela_editar_login.cod.setText("")
+    tela_editar_login.label_2.setText("")
+    tela_editar_login.label_3.setText("")
+
+def abrir_tela_excluir_login():
+    tela_login.close()
+    tela_excluir_login.show()
+
+def excluir_login_pesq():
+    tela_excluir_login.label_8.setText("")
+    try:
+        achei = 0
+        cursor = banco.cursor()
+        cursor.execute("select * from cadastro")
+        cod=int(tela_excluir_login.cod.text())
+        valores_lidos = cursor.fetchall()
+        for i in valores_lidos:
+            if i[0] == cod:
+                tela_excluir_login.nome.setText(i[1])
+                tela_excluir_login.login.setText(i[2])
+                tela_excluir_login.label_10.setText("")
+                achei = 1
+        if achei == 0:
+                tela_excluir_login.label_10.setText("Código não encontrado")
+                tela_excluir_login.nome.setText("")
+                tela_excluir_login.login.setText("")
+    except ValueError:
+        tela_excluir_login.label_10.setText("Insira apenas números inteiros")
+        tela_excluir_login.nome.setText("")
+        tela_excluir_login.login.setText("")
+    except:
+        print("Pane geral")
+
+def excluir_login():
+    try:
+        cod=int(tela_excluir_login.cod.text())
+        cursor = banco.cursor()
+        cursor.execute("DELETE FROM cadastro WHERE cod_cadastro = {}".format(cod))
+        banco.commit()
+        tela_excluir_login.label_8.setText("Login excluído com sucesso!")
+        tela_excluir_login.cod.setText("")
+        tela_excluir_login.nome.setText("")
+        tela_excluir_login.login.setText("")
+    except ValueError:
+        tela_excluir_login.label_10.setText("Insira apenas números inteiros")
+
+def voltar_tela_excluir_login():
+    tela_excluir_login.close()
+    tela_login.show()
+    tela_excluir_login.nome.setText("")
+    tela_excluir_login.login.setText("")
+    tela_excluir_login.label_10.setText("")
+    tela_excluir_login.cod.setText("")
+    tela_excluir_login.label_8.setText("")
+
+
 app=QtWidgets.QApplication([])
 
 #Carregando os arquivos
@@ -1035,7 +1164,7 @@ tela_cadastrar_aluno=uic.loadUi("tela_cadastrar_aluno.ui")
 tela_excluir_aluno=uic.loadUi("tela_excluir_aluno.ui")
 tela_pesquisar_aluno=uic.loadUi("tela_pesquisar_aluno.ui")
 tela_livros=uic.loadUi("tela_livros.ui")
-adm_cadastro=uic.loadUi("adm_cadastro.ui")
+adm_login=uic.loadUi("adm_login.ui")
 tela_listar_livros=uic.loadUi("tela_listar_livros.ui")
 tela_editar_livro=uic.loadUi("tela_editar_livro.ui")
 tela_cadastrar_livro=uic.loadUi("tela_cadastrar_livro.ui")
@@ -1057,15 +1186,20 @@ tela_excluir_emprestimo=uic.loadUi("tela_excluir_emprestimo.ui")
 tela_pesquisar_emprestimo=uic.loadUi("tela_pesquisar_emprestimo.ui")
 tela_cadastrar_emprestimo=uic.loadUi("tela_cadastrar_emprestimo.ui")
 tela_erro=uic.loadUi("tela_erro.ui")
+tela_administracao=uic.loadUi("tela_administracao.ui")
+tela_login=uic.loadUi("tela_login.ui")
+tela_listar_login=uic.loadUi("tela_listar_login.ui")
+tela_editar_login=uic.loadUi("tela_editar_login.ui")
+tela_excluir_login=uic.loadUi("tela_excluir_login.ui")
 
 #Execultando as funções de clicker
-adm_cadastro.pushButton_7.clicked.connect(voltar_adm_cadastro)
+adm_login.pushButton_7.clicked.connect(voltar_adm_cadastro)
 login_entrar.pushButton.clicked.connect(chama_sistema_geral)
 login_entrar.pushButton_3.clicked.connect(sair_geral)
 sistema_geral.pushButton.clicked.connect(logout)
 login_entrar.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
-login_entrar.pushButton_2.clicked.connect(tela_adm_cadastro)
-adm_cadastro.pushButton.clicked.connect(login_adm)
+login_entrar.pushButton_2.clicked.connect(tela_adm_login)
+adm_login.pushButton.clicked.connect(login_adm)
 tela_cadastro.pushButton.clicked.connect(cadastrar)
 tela_cadastro.pushButton_7.clicked.connect(voltar_login_entrar)
 sistema_geral.pushButton_2.clicked.connect(alunos)
@@ -1145,11 +1279,24 @@ tela_emprestimo.pushButton_3.clicked.connect(abrir_tela_cadastrar_emprestimo)
 tela_cadastrar_emprestimo.pushButton_2.clicked.connect(voltar_tela_cadastrar_emprestimo)
 tela_cadastrar_emprestimo.pushButton.clicked.connect(cadastrar_emprestimo)
 tela_erro.pushButton.clicked.connect(fechar_tela_erro)
+tela_administracao.pushButton.clicked.connect(abrir_tela_login)
+tela_administracao.pushButton_2.clicked.connect(voltar_tela_administracao)
+tela_login.pushButton.clicked.connect(abre_tela_cadastro)
+tela_login.pushButton_7.clicked.connect(voltar_tela_login)
+tela_login.pushButton_4.clicked.connect(abrir_tela_listar_login)
+tela_listar_login.pushButton.clicked.connect(voltar_tela_listar_login)
+tela_login.pushButton_3.clicked.connect(abrir_tela_editar_login)
+tela_editar_login.pushButton_7.clicked.connect(voltar_tela_editar_login)
+tela_editar_login.pushButton.clicked.connect(editar_login)
+tela_login.pushButton_2.clicked.connect(abrir_tela_excluir_login)
+tela_excluir_login.pushButton_3.clicked.connect(voltar_tela_excluir_login)
+tela_excluir_login.pushButton_2.clicked.connect(excluir_login_pesq)
+tela_excluir_login.pushButton.clicked.connect(excluir_login)
 
 #IconesDeLogin
 login_entrar.setWindowIcon(QtGui.QIcon('icone.png'))
 sistema_geral.setWindowIcon(QtGui.QIcon('icone.png'))
-tela_cadastro.setWindowIcon(QtGui.QIcon('icone.png'))
+tela_cadastro.setWindowIcon(QtGui.QIcon('administracao.png'))
 alunos_a.setWindowIcon(QtGui.QIcon('icone.png'))
 listar_alunos.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_aluno.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -1157,7 +1304,7 @@ tela_cadastrar_aluno.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_excluir_aluno.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_pesquisar_aluno.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_livros.setWindowIcon(QtGui.QIcon('icone.png'))
-adm_cadastro.setWindowIcon(QtGui.QIcon('icone.png'))
+adm_login.setWindowIcon(QtGui.QIcon('administracao.png'))
 tela_listar_livros.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_editar_livro.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_cadastrar_livro.setWindowIcon(QtGui.QIcon('icone.png'))
@@ -1178,6 +1325,12 @@ tela_editar_previsao.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_excluir_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_pesquisar_emprestimo.setWindowIcon(QtGui.QIcon('icone.png'))
 tela_erro.setWindowIcon(QtGui.QIcon('erro.png'))
+tela_administracao.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_login.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_excluir_login.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_listar_login.setWindowIcon(QtGui.QIcon('administracao.png'))
+tela_editar_login.setWindowIcon(QtGui.QIcon('administracao.png'))
+
 
 #Start
 login_entrar.show()

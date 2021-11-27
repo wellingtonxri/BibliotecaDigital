@@ -98,30 +98,12 @@ border-width: 2px;</string>
      <string>Senha</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>400</y>
-      <width>151</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Não é cadastrado?</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>10</x>
       <y>410</y>
-      <width>131</width>
+      <width>161</width>
       <height>41</height>
      </rect>
     </property>
@@ -140,7 +122,11 @@ border-width: 4px;
 border-color: black;</string>
     </property>
     <property name="text">
-     <string>Cadastrar</string>
+     <string>Administrador</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>administracao.png</normaloff>administracao.png</iconset>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -276,7 +262,6 @@ border-color: black;</string>
    <zorder>label_3</zorder>
    <zorder>lineEdit</zorder>
    <zorder>lineEdit_2</zorder>
-   <zorder>label</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>label_2</zorder>
    <zorder>pushButton_3</zorder>
