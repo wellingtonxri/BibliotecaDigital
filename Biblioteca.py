@@ -35,6 +35,9 @@ def tela_adm_login():
     
     login_entrar.close()
     adm_login.show()
+    login_entrar.lineEdit.setText("")
+    login_entrar.lineEdit_2.setText("")
+    login_entrar.label_2.setText("")
 
 def login_adm():
     admlogin=adm_login.adm.text()
@@ -1210,7 +1213,6 @@ def abrir_tela_backup_emprestimo_inserido():
             for j in range(0, 7):
                 tela_backup_emprestimo_inserido.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     
-
 def voltar_tela_backup_emprestimo_inserido():
     tela_backup_emprestimo_inserido.close()
     tela_backup_emprestimo.show()
